@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas API</title>
+</head>
+<body>
+<canvas id="trails" style="border: 1px solid;" height="500" width="500"></canvas>
+</body>
+<script>
+
+    function createCanopyPath(context) {
+        //绘制树冠
+        context.beginPath();
+
+        context.moveTo(-25, -50);
+        context.lineTo(-10, -80);
+        context.lineTo(-20, -80);
+        context.lineTo(-5, -110);
+        context.lineTo(-15, -110);
+
+        //树的顶点
+        context.lineTo(0, -140);
+
+        context.lineTo(15, -110);
+        context.lineTo(5, -110);
+        context.lineTo(20, -80);
+        context.lineTo(10, -80);
+        context.lineTo(25, -50);
+
+        //将填充色设为棕色
+        context.fillStyle = '#663300';
+        //填充色运作树干的矩形区域
+        context.fillRect(-5,-50,10,50);
+
+        //连接起点，闭合路径
+        context.closePath();
+    }
+
+    function createCurvePath(context) {
+
+        //保存canvas的状态并绘制路径
+        context.save();
+
+        context.translate(-10,350);
+        context.beginPath();
+
+        //第一条曲线向右上方弯曲(第一组xy坐标是曲线的控制点，第二组xy坐标是曲线的终点)
+        context.moveTo(0,0);
+        context.quadraticCurveTo(170,-50,260,-190);
+
+        //第二条曲线向右下方弯曲
+        context.quadraticCurveTo(310,-250,410,-250);
+
+        //使用棕色的粗线条来绘制路径
+        context.strokeStyle='#663300';
+        context.lineWidth=20;
+        context.stroke();
+
+        //恢复之前的canvas状态
+        context.restore();
+
+    }
+
+    function drawTrails() {
+        var canvas = document.getElementById('trails');
+        var context = canvas.getContext('2d');
+
+        context.save();
+        context.translate(130, 250);
+        //创建表现树冠的路径
+        createCanopyPath(context);
+//        createCurvePath(context);
+
+        //加宽线条
+        context.lineWidth = 4;
+
+        //平滑路径的接合点 round/bevel/miter
+        context.lineJoin = 'round';
+
+        //将颜色改为棕色
+        context.strokeStyle = '#663300';
+
+        //将填充色设置为绿色并填充树冠(填充是在绘图之前进行的，所以不会覆盖线条宽度，如果在绘图之后填充，就会覆盖线条宽度)
+        context.fillStyle="#339900";
+        context.fill();
+
+        //绘制当前路径
+        context.stroke();
+        context.restore();
+        createCurvePath(context);
+    }
+
+
+    window.addEventListener("load", drawTrails, true);
+</script>
+</html>
