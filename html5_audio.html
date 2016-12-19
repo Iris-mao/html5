@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<title>HTML5 Audio</title>
+</html>
+<audio id="clickSound">
+    <source src="Backroad.ogg">
+</audio>
+<button id="toggle" onclick="toggleSound()">Play</button>
+<script type="text/javascript">
+    function toggleSound() {
+        var music = document.getElementById("clickSound");
+        var toggle = document.getElementById("toggle");
+
+        if(music.paused){
+            music.play();
+            toggle.innerHTML = "Pause";
+        }else {
+            music.pause();
+            toggle.innerHTML = "Play";
+        }
+    }
+</script>
